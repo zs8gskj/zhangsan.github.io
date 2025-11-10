@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>豆芽观察日记 - 8天完整记录</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+            background-image: linear-gradient(to bottom, #f8f9fa, #e8f5e9);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+            z-index: 0;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .overview {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .stat-item {
+            flex: 1;
+            padding: 10px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #4CAF50, #8BC34A);
+            border-radius: 3px;
+        }
+        
+        .entry {
+            position: relative;
+            margin-bottom: 30px;
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .entry:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .entry::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 25px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #4CAF50;
+            z-index: 2;
+        }
+        
+        .entry-date {
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        
+        .entry-date::before {
+            content: '🌱';
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .entry-content {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+        
+        .entry-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 15px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .entry-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+            transition: transform 0.5s;
+        }
+        
+        .entry-image:hover img {
+            transform: scale(1.03);
+        }
+        
+        .video-section {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid #2196F3;
+        }
+        
+        .entry-video {
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 15px;
+            overflow: hidden;
+            position: relative;
+            background-color: #000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .entry-video video {
+            width: 100%;
+            display: block;
+        }
+        
+        .video-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .video-btn {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            flex: 1;
+            justify-content: center;
+            min-width: 120px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .video-btn:hover {
+            background-color: #0b7dda;
+        }
+        
+        .video-btn i {
+            margin-right: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .status-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .status-fill {
+            height: 100%;
+            background: linear-gradient(to right, #4CAF50, #8BC34A);
+            border-radius: 5px;
+            transition: width 0.8s ease;
+        }
+        
+        .status-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .day-badge {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 8px;
+        }
+        
+        .video-url-input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        .video-url-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            font-size: 1rem;
+            margin-top: 10px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .video-url-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .video-url-btn i {
+            margin-right: 10px;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .video-controls {
+                flex-direction: column;
+            }
+            
+            .video-btn {
+                width: 100%;
+            }
+            
+            .entry {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>豆芽观察日记</h1>
+        <div class="subtitle">8天完整生长记录 - 从绿豆到茂密森林</div>
+    </header>
+    
+    <section class="overview">
+        <h2>🌱 生长概览</h2>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value">8天</div>
+                <div class="stat-label">观察周期</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">15cm</div>
+                <div class="stat-label">最长芽苗</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">95%</div>
+                <div class="stat-label">发芽率</div>
+            </div>
+        </div>
+        
+        <div class="growth-status">
+            <h3>生长进度</h3>
+            <div class="status-bar">
+                <div class="status-fill" style="width: 100%;"></div>
+            </div>
+            <div class="status-labels">
+                <span>开始</span>
+                <span>完成</span>
+            </div>
+        </div>
+    </section>
+    
+    <section class="timeline">
+        <h2>📝 8天观察记录</h2>
+        
+        <div class="entry">
+            <div class="entry-date">第一天晚上 <span class="day-badge">浸泡</span></div>
+            <div class="entry-content">
+                将绿豆清洗干净，放入清水中浸泡24小时。绿豆刚开始很小，呈深绿色，表面光滑。
+            </div>
+            <div class="entry-image">
+                <!-- 替换第一天的图片URL -->
+                <img src="豆芽成长记录 (3).png" alt="豆芽第1天">
+            </div>
+        </div>
+        
+        <div class="entry">
+            <div class="entry-date">第二天晚上 <span class="day-badge">膨胀</span></div>
+            <div class="entry-content">
+                绿豆吸水膨胀，变成了小胖子，体积明显增大，部分豆皮开始出现细微裂纹。
+            </div>
+            <div class="entry-image">
+                <!-- 替换第二天的图片URL -->
+                <img src="豆芽成长记录 (4).png" alt="豆芽第2天">
+            </div>
+        </div>
+        
+        <div class="entry">
+            <div class="entry-date">第三天晚上 <span class="day-badge">发芽</span></div>
+            <div class="entry-content">
+                绿豆长出了小辫子！大部分豆子开始出现小小的白点，这是豆芽的初生阶段，豆皮开始脱落。
+            </div>
+            <div class="entry-image">
+                <!-- 替换第三天的图片URL -->
+                <img src="豆芽成长记录 (5).png" alt="豆芽第3天">
+            </div>
+        </div>
+        
+        <div class="entry">
+            <div class="entry-date">第四天晚上 <span class="day-badge">生长</span></div>
+            <div class="entry-content">
+                小辫子明显长长了！豆芽继续生长，长度增加到约1-2厘米，豆皮大部分脱落。
+            </div>
+            <div class="entry-image">
+                <!-- 替换第四天的图片URL -->
+                <img src="豆芽成长记录 (6).png" alt="豆芽第4天">
+            </div>
+        </div>
+        
+        <div class="entry">
+            <div class="entry-date">第五天晚上 <span class="day-badge">分化</span></div>
+            <div class="entry-content">
+                有的绿豆已经发芽，有的还长着小辫子。生长速度开始出现差异，部分豆芽已经明显长高。
+            </div>
+            <div class="entry-image">
+                <!-- 替换第五天的图片URL -->
+                <img src="豆芽成长记录 (7).png" alt="豆芽第5天">
+            </div>
+        </div>
+        
+        <div class="entry">
+            <div class="entry-date">第六天晚上 <span class="day-badge">蜕变</span></div>
+            <div class="entry-content">
+                华丽转身，变成亭亭玉立的大姑娘了！豆芽生长迅速，最长的已达8-10厘米，芽苗顶部开始变绿。
+            </div>
+            <div class="entry-image">
+                <!-- 替换第六天的图片URL -->
+                <img src="豆芽成长记录 (8).png" alt="豆芽第6天">
+            </div>
+        </div>
+        
+        <div class="entry">
+            <div class="entry-date">第七天晚上 <span class="day-badge">茂密</span></div>
+            <div class="entry-content">
+                长得更浓密了！豆芽茂盛生长，最长的达到10-12厘米，芽苗顶部完全变绿，根须更加发达。
+            </div>
+            <div class="entry-image">
+                <!-- 替换第七天的图片URL -->
+                <img src="豆芽成长记录 (9).png" alt="豆芽第7天">
+            </div>
+        </div>
+        
+        <div class="entry">
+            <div class="entry-date">第八天晚上 <span class="day-badge">森林</span></div>
+            <div class="entry-content">
+                颜值翻倍，长成了一片森林！豆芽完全成熟，最长的达到15厘米，芽苗翠绿鲜嫩，可以收获了！
+            </div>
+            <div class="entry-image">
+                <!-- 替换第八天的图片URL -->
+                <img src="豆芽成长记录 (1).png" alt="豆芽第8天">
+            </div>
+        </div>
+    </section>
+    
+    <section class="video-section">
+        <h2>🎥 豆芽生长过程视频</h2>
+        <p>观看豆芽生长的完整过程记录</p>
+        
+        <div class="video-url-area">
+            <p>要替换视频，请在下方输入新的视频URL：</p>
+            <input type="text" id="videoUrlInput" class="video-url-input" placeholder="绿豆芽成长.mp4">
+            <button class="video-url-btn" onclick="loadVideo()">
+                <i class="fas fa-sync-alt"></i> 加载视频
+            </button>
+        </div>
+        
+        <div id="videoStatus" style="margin-top: 10px; padding: 10px; border-radius: 5px; display: none;"></div>
+        
+        <div id="videoContainer">
+            <div class="entry-video">
+                <!-- 替换视频URL -->
+                <video id="videoPlayer" controls poster="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect fill='%23333' width='400' height='200'/%3E%3Cpolygon fill='%23fff' points='180,80 180,120 220,100'/%3E%3Ctext fill='%23fff' font-family='Arial' font-size='14' x='200' y='180' text-anchor='middle'%3E豆芽生长过程视频%3C/text%3E%3C/svg%3E">
+                    <source src="绿豆芽成长.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+            <div class="video-controls">
+                <button class="video-btn" onclick="playVideo()">
+                    <i class="fas fa-play"></i> 播放视频
+                </button>
+                <button class="video-btn" onclick="pauseVideo()">
+                    <i class="fas fa-pause"></i> 暂停
+                </button>
+                <button class="video-btn" onclick="replayVideo()">
+                    <i class="fas fa-redo"></i> 重新播放
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>豆芽观察日记 | 8天完整记录 | 从绿豆到茂密森林的神奇旅程</p>
+    </footer>
+
+    <script>
+        // 更新当前日期
+        const today = new Date();
+        const startDate = new Date();
+        startDate.setDate(today.getDate() - 7); // 8天前开始
+        
+        document.querySelector('footer p').textContent = 
+            `豆芽观察日记 | 记录时间: ${startDate.getFullYear()}年${startDate.getMonth()+1}月${startDate.getDate()}日 - ${today.getMonth()+1}月${today.getDate()}日`;
+        
+        // 视频播放控制
+        const videoPlayer = document.getElementById('videoPlayer');
+        const videoStatus = document.getElementById('videoStatus');
+        
+        function playVideo() {
+            if (videoPlayer.src && videoPlayer.src !== window.location.href) {
+                videoPlayer.play().catch(e => {
+                    console.log("视频播放失败:", e);
+                    showVideoStatus("视频播放失败，请检查视频链接是否有效", "error");
+                });
+            } else {
+                showVideoStatus("请先设置有效的视频URL", "error");
+            }
+        }
+        
+        function pauseVideo() {
+            if (videoPlayer.src) {
+                videoPlayer.pause();
+            }
+        }
+        
+        function replayVideo() {
+            if (videoPlayer.src && videoPlayer.src !== window.location.href) {
+                videoPlayer.currentTime = 0;
+                videoPlayer.play();
+            }
+        }
+        
+        // 加载视频函数
+        function loadVideo() {
+            const videoUrl = document.getElementById('videoUrlInput').value.trim();
+            
+            if (!videoUrl) {
+                showVideoStatus("请输入视频URL", "error");
+                return;
+            }
+            
+            // 验证URL格式
+            try {
+                new URL(videoUrl);
+            } catch (e) {
+                showVideoStatus("请输入有效的URL格式", "error");
+                return;
+            }
+            
+            // 显示加载状态
+            showVideoStatus("正在加载视频...", "loading");
+            
+            // 创建新的视频元素
+            const newVideo = document.createElement('video');
+            newVideo.controls = true;
+            newVideo.poster = videoPlayer.poster;
+            
+            // 创建新的source元素
+            const newSource = document.createElement('source');
+            newSource.src = videoUrl;
+            newSource.type = 'video/mp4';
+            
+            // 添加备用文本
+            const fallbackText = document.createTextNode('您的浏览器不支持视频播放。');
+            
+            // 清空新视频元素并添加内容
+            newVideo.innerHTML = '';
+            newVideo.appendChild(newSource);
+            newVideo.appendChild(fallbackText);
+            
+            // 替换视频元素
+            const videoContainer = document.querySelector('.entry-video');
+            videoContainer.innerHTML = '';
+            videoContainer.appendChild(newVideo);
+            
+            // 更新全局videoPlayer引用
+            videoPlayer = newVideo;
+            
+            // 添加加载事件监听器
+            videoPlayer.addEventListener('loadeddata', function() {
+                showVideoStatus("视频加载成功！", "success");
+            });
+            
+            videoPlayer.addEventListener('error', function() {
+                showVideoStatus("视频加载失败，请检查URL是否正确", "error");
+            });
+        }
+        
+        // 显示视频状态
+        function showVideoStatus(message, type) {
+            videoStatus.textContent = message;
+            videoStatus.style.display = 'block';
+            
+            if (type === 'success') {
+                videoStatus.style.backgroundColor = '#e8f5e9';
+                videoStatus.style.color = '#2e7d32';
+                videoStatus.style.border = '1px solid #c8e6c9';
+            } else if (type === 'error') {
+                videoStatus.style.backgroundColor = '#ffebee';
+                videoStatus.style.color = '#c62828';
+                videoStatus.style.border = '1px solid #ffcdd2';
+            } else if (type === 'loading') {
+                videoStatus.style.backgroundColor = '#e3f2fd';
+                videoStatus.style.color = '#1565c0';
+                videoStatus.style.border = '1px solid #bbdefb';
+            }
+            
+            // 3秒后自动隐藏成功消息
+            if (type === 'success') {
+                setTimeout(() => {
+                    videoStatus.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        // 点击图片可以放大查看
+        document.querySelectorAll('.entry-image img').forEach(img => {
+            img.addEventListener('click', function() {
+                // 在实际应用中，这里可以实现图片放大功能
+                alert("在实际应用中，点击图片可以放大查看豆芽的细节。");
+            });
+        });
+    </script>
+</body>
+</html>
